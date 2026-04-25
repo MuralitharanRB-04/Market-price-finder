@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,4 +37,44 @@
     }
   </script>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meika - Find Best Prices</title>
+  <style>
+    body { font-family: 'Figtree', sans-serif; background: #FBFBF7; padding: 20px; }
+    input, button { padding: 12px; margin: 10px 0; width: 100%; max-width: 500px; }
+    button { background: #889A7B; color: white; border: none; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Meika - Spend Savvy</h1>
+  <input type="text" id="query" placeholder="e.g. rice 5kg near Seoul" />
+  <button onclick="search()">Search Prices</button>
+  <div id="results"></div>
+
+  <script>
+    async function search() {
+      const q = document.getElementById("query").value;
+      const res = await fetch(`http://127.0.0.1:8000/api/v1/search-price?q=${encodeURIComponent(q)}`);
+      const data = await res.json();
+      
+      let html = `<h2>Results for: ${data.query}</h2>`;
+      data.grounded_results.forEach(item => {
+        html += `
+          <div style="border:1px solid #ddd; padding:10px; margin:10px 0;">
+            <strong>${item.product || 'Product'}</strong><br>
+            Price: ${item.price || 'N/A'}<br>
+            Store: ${item.store || 'N/A'}<br>
+            <a href="${item.source_url}" target="_blank">Verify Source</a>
+          </div>`;
+      });
+      document.getElementById("results").innerHTML = html;
+    }
+  </script>
+</body>
+>>>>>>> Stashed changes
 </html>
