@@ -1,80 +1,190 @@
-<<<<<<< Updated upstream
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meika - Find Best Prices</title>
+  <title>Meika • Spend Savvy. Live Fully.</title>
   <style>
-    body { font-family: 'Figtree', sans-serif; background: #FBFBF7; padding: 20px; }
-    input, button { padding: 12px; margin: 10px 0; width: 100%; max-width: 500px; }
-    button { background: #889A7B; color: white; border: none; cursor: pointer; }
+    @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&display=swap');
+
+    body {
+      font-family: 'Figtree', system-ui, sans-serif;
+      background: #FBFBF7;
+      color: #2F2F2F;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 60px auto;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    h1 {
+      font-size: 3.2rem;
+      font-weight: 600;
+      margin: 0 0 8px 0;
+    }
+
+    .tagline {
+      font-size: 1.4rem;
+      color: #889A7B;
+      margin: 0;
+    }
+
+    .search-box {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    input {
+      flex: 1;
+      min-width: 320px;
+      padding: 18px 22px;
+      font-size: 1.15rem;
+      border: 2px solid #E5E5E5;
+      border-radius: 16px;
+      background: white;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #889A7B;
+    }
+
+    button {
+      padding: 18px 36px;
+      background: #889A7B;
+      color: white;
+      border: none;
+      border-radius: 16px;
+      font-size: 1.15rem;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #6f7f64;
+    }
+
+    .results {
+      margin-top: 30px;
+    }
+
+    .result-card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+      border-left: 6px solid #889A7B;
+    }
+
+    .price {
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: #2F2F2F;
+      margin: 12px 0;
+    }
+
+    .source-link {
+      color: #889A7B;
+      text-decoration: none;
+      margin-top: 12px;
+      display: inline-block;
+    }
+
+    .note {
+      text-align: center;
+      margin-top: 50px;
+      color: #777;
+      font-size: 0.95rem;
+    }
+
+    .empty {
+      text-align: center;
+      color: #888;
+      padding: 40px;
+    }
   </style>
 </head>
 <body>
-  <h1>Meika - Spend Savvy</h1>
-  <input type="text" id="query" placeholder="e.g. rice 5kg near Seoul" />
-  <button onclick="search()">Search Prices</button>
-  <div id="results"></div>
+  <div class="container">
+    <header>
+      <h1>Meika</h1>
+      <p class="tagline">Spend Savvy. Live Fully.</p>
+    </header>
+
+    <div class="search-box">
+      <input 
+        type="text" 
+        id="query" 
+        placeholder="e.g. 5kg rice Seoul, student meal deal, monthly bus pass"
+      >
+      <button onclick="searchPrice()">Find Best Prices</button>
+    </div>
+
+    <div id="results" class="results"></div>
+
+    <div class="note">
+      Hallucination-Proof • All prices come from live search results only.
+    </div>
+  </div>
 
   <script>
-    async function search() {
-      const q = document.getElementById("query").value;
-      const res = await fetch(`http://127.0.0.1:8000/api/v1/search-price?q=${encodeURIComponent(q)}`);
-      const data = await res.json();
-      
-      let html = `<h2>Results for: ${data.query}</h2>`;
-      data.grounded_results.forEach(item => {
-        html += `
-          <div style="border:1px solid #ddd; padding:10px; margin:10px 0;">
-            <strong>${item.product || 'Product'}</strong><br>
-            Price: ${item.price || 'N/A'}<br>
-            Store: ${item.store || 'N/A'}<br>
-            <a href="${item.source_url}" target="_blank">Verify Source</a>
-          </div>`;
-      });
-      document.getElementById("results").innerHTML = html;
-    }
-  </script>
-</body>
-=======
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meika - Find Best Prices</title>
-  <style>
-    body { font-family: 'Figtree', sans-serif; background: #FBFBF7; padding: 20px; }
-    input, button { padding: 12px; margin: 10px 0; width: 100%; max-width: 500px; }
-    button { background: #889A7B; color: white; border: none; cursor: pointer; }
-  </style>
-</head>
-<body>
-  <h1>Meika - Spend Savvy</h1>
-  <input type="text" id="query" placeholder="e.g. rice 5kg near Seoul" />
-  <button onclick="search()">Search Prices</button>
-  <div id="results"></div>
+    async function searchPrice() {
+      const queryInput = document.getElementById("query").value.trim();
+      const resultsDiv = document.getElementById("results");
 
-  <script>
-    async function search() {
-      const q = document.getElementById("query").value;
-      const res = await fetch(`http://127.0.0.1:8000/api/v1/search-price?q=${encodeURIComponent(q)}`);
-      const data = await res.json();
-      
-      let html = `<h2>Results for: ${data.query}</h2>`;
-      data.grounded_results.forEach(item => {
-        html += `
-          <div style="border:1px solid #ddd; padding:10px; margin:10px 0;">
-            <strong>${item.product || 'Product'}</strong><br>
-            Price: ${item.price || 'N/A'}<br>
-            Store: ${item.store || 'N/A'}<br>
-            <a href="${item.source_url}" target="_blank">Verify Source</a>
-          </div>`;
-      });
-      document.getElementById("results").innerHTML = html;
+      if (!queryInput) {
+        resultsDiv.innerHTML = `<div class="empty">Please type what you want to buy</div>`;
+        return;
+      }
+
+      resultsDiv.innerHTML = `<div class="empty">Searching live prices for "${queryInput}"...</div>`;
+
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/api/v1/search-price?q=${encodeURIComponent(queryInput)}`);
+        
+        if (!response.ok) throw new Error("Server error");
+
+        const data = await response.json();
+
+        let html = `<h2 style="text-align:center;">Results for: "${data.query || queryInput}"</h2>`;
+
+        if (data.results && data.results.length > 0) {
+          data.results.forEach(item => {
+            html += `
+              <div class="result-card">
+                <div style="font-size:1.1rem; font-weight:500;">${item.product || 'Product'}</div>
+                <div class="price">${item.price || 'Price not clearly listed'}</div>
+                <div style="color:#555;">${item.store || 'Multiple stores'}</div>
+                ${item.source_url ? `<a href="${item.source_url}" target="_blank" class="source-link">→ Verify Source</a>` : ''}
+              </div>`;
+          });
+        } else {
+          html += `<div class="empty">No clear prices found. Try a more specific query.</div>`;
+        }
+
+        resultsDiv.innerHTML = html;
+      } catch (err) {
+        resultsDiv.innerHTML = `<div class="empty" style="color:red;">Error: Could not connect to backend.<br>Make sure the server is still running.</div>`;
+      }
     }
+
+    // Allow pressing Enter key
+    document.getElementById("query").addEventListener("keypress", function(e) {
+      if (e.key === "Enter") searchPrice();
+    });
   </script>
 </body>
->>>>>>> Stashed changes
 </html>
